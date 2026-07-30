@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Forecourt</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0e141c">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Forecourt">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAAERUlEQVR4nO3dPY4jVRSGYQ9CIiBAE4Em6WSE2M5sgnxWQs4m2A4im4wJCQjICCy1Wm27pqY++55zr54n7N+6x29VV9nd1W/evnt/gqO+qd4A5iYgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIvJt9QY8yqfffqzehNeePn6u3oT7e/P23fvqbbizhum8tFhGSwXUPJ2XlslonXOgieo5zba1GxYJaMbHY8ZtvrRCQPM+EvNu+bMVAqLQ9AHNvhPPvv3TB0StuQOaffc9m3oVcwdEOQERERARAREREBEBEREQEQERERARAREREBEB1Zv611vnDmjq0a+h1y/VT/269DCtdpsuAUnngA4l1QcknVBtRsXnQOrJ1c6wMiD13EvhJMsCUs99Vc2zJiD1PELJVAsCUs/jjJ/t3E8kUm50QA4/jzZ4wo5ARIYG5PAzxsg5OwIRERARAREREBEBEREQEQERERARAREREBEBEREQEQERERARARGZ7z8W/vTrX1ff/vfvPw/eksQaqzjNFdCtob98b/8HYI1VPJsjoO2hX35kzwdgjVW8MsE50P65J5/yaGus4tLQgA7cBuDwEFtNf/AqRt5uofURKIygSUNrrOKWvgHdZXDl019jFRtGB7Tz6HrHkRVOv2QVg28X1PcIxBRq7lC2/ZdvX9zbXl3f7tk7x18SH9iqr134pfF3K6t5Hujp4+djfz15dYLnN3Y+Ubj0iIWU3Ouu7EfYrdVujG97/9t+7+C8tr/d4YVsfNmqOyVWngN1uMnoGgonWXwSvX/le05ipnju/+4Lqd0P618LO6/fjTsO6HAIrw/oTEb7dejmWZeAzh46mlZzP6zbKqZ5InHPZdQUV/LLLORsmoDoqV1A333/w6137fldvgNf9hG2v93hhQxexR71/2zl0n///rP9AQdeyjiP/tMfvyQbtt/Thz+/uIrT1y9EQHvtmf5+g+s529nQfg3rOTX8EfYgg+sp+Y4lmgZ0x72tcMddYxXbmgZ0utPIyue+xio29A3oFA+uydzXWMUtrQM6BeNrNfc1VnFV94BOh4bYcO5rrOJS08v4q/ZcFW8Mffxl/NW3h6voZqaAzm49AHuGPvKJxO0PSFbRynwB0coE50B0JiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIi8j8yZPfbhDvq8AAAAABJRU5ErkJggg==">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAAERUlEQVR4nO3dPY4jVRSGYQ9CIiBAE4Em6WSE2M5sgnxWQs4m2A4im4wJCQjICCy1Wm27pqY++55zr54n7N+6x29VV9nd1W/evnt/gqO+qd4A5iYgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIvJt9QY8yqfffqzehNeePn6u3oT7e/P23fvqbbizhum8tFhGSwXUPJ2XlslonXOgieo5zba1GxYJaMbHY8ZtvrRCQPM+EvNu+bMVAqLQ9AHNvhPPvv3TB0StuQOaffc9m3oVcwdEOQERERARAREREBEBEREQEQERERARAREREBEB1Zv611vnDmjq0a+h1y/VT/269DCtdpsuAUnngA4l1QcknVBtRsXnQOrJ1c6wMiD13EvhJMsCUs99Vc2zJiD1PELJVAsCUs/jjJ/t3E8kUm50QA4/jzZ4wo5ARIYG5PAzxsg5OwIRERARAREREBEBEREQEQERERARAREREBEBEREQEQERERARARGZ7z8W/vTrX1ff/vfvPw/eksQaqzjNFdCtob98b/8HYI1VPJsjoO2hX35kzwdgjVW8MsE50P65J5/yaGus4tLQgA7cBuDwEFtNf/AqRt5uofURKIygSUNrrOKWvgHdZXDl019jFRtGB7Tz6HrHkRVOv2QVg28X1PcIxBRq7lC2/ZdvX9zbXl3f7tk7x18SH9iqr134pfF3K6t5Hujp4+djfz15dYLnN3Y+Ubj0iIWU3Ouu7EfYrdVujG97/9t+7+C8tr/d4YVsfNmqOyVWngN1uMnoGgonWXwSvX/le05ipnju/+4Lqd0P618LO6/fjTsO6HAIrw/oTEb7dejmWZeAzh46mlZzP6zbKqZ5InHPZdQUV/LLLORsmoDoqV1A333/w6137fldvgNf9hG2v93hhQxexR71/2zl0n///rP9AQdeyjiP/tMfvyQbtt/Thz+/uIrT1y9EQHvtmf5+g+s529nQfg3rOTX8EfYgg+sp+Y4lmgZ0x72tcMddYxXbmgZ0utPIyue+xio29A3oFA+uydzXWMUtrQM6BeNrNfc1VnFV94BOh4bYcO5rrOJS08v4q/ZcFW8Mffxl/NW3h6voZqaAzm49AHuGPvKJxO0PSFbRynwB0coE50B0JiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIi8j8yZPfbhDvq8AAAAABJRU5ErkJggg==">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0e141c;
+    --bg2:#0a0f15;
+    --card1:#1c2836;
+    --card2:#131c26;
+    --line:#26333f;
+    --accent:#f2a93b;
+    --accent-dim:#8a6a30;
+    --profit:#2fce6f;
+    --loss:#ef5a5a;
+    --plate:#f2c94c;
+    --text:#eef3f8;
+    --muted:#8b9aab;
+    --muted2:#5d6b7a;
+    --radius:20px;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;height:100%;background:var(--bg);}
+  body{
+    font-family:'Inter',sans-serif;
+    color:var(--text);
+    overflow:hidden;
+    position:fixed; inset:0;
+  }
+  .disp{font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:0.2px;}
+  #app{
+    height:100%; width:100%; max-width:520px; margin:0 auto;
+    display:flex; flex-direction:column; position:relative;
+    background:linear-gradient(180deg, #101821 0%, #0a0f15 100%);
+  }
+  /* ---------- Header ---------- */
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 18px 10px 18px; flex-shrink:0;
+  }
+  .topbar h1{
+    font-size:34px; margin:0; font-family:'Barlow Condensed',sans-serif; font-weight:800;
+    letter-spacing:0.3px;
+  }
+  .icon-btn{
+    width:40px; height:40px; border-radius:12px; border:1px solid var(--line);
+    background:var(--card2); display:flex; align-items:center; justify-content:center;
+    color:var(--text); cursor:pointer; flex-shrink:0;
+  }
+  .icon-btn svg{width:19px; height:19px;}
+  .icon-btn.accent{ background:var(--accent); border-color:var(--accent); color:#241703; }
+
+  /* ---------- Scroll area ---------- */
+  .scroll{ flex:1; overflow-y:auto; padding:6px 16px 100px 16px; -webkit-overflow-scrolling:touch; }
+  .scroll::-webkit-scrollbar{display:none;}
+
+  .empty{
+    margin-top:60px; text-align:center; color:var(--muted); padding:0 30px;
+  }
+  .empty .big{font-size:44px; margin-bottom:10px;}
+  .empty .disp{font-size:22px; color:var(--text); margin-bottom:6px;}
+
+  /* ---------- Car card (Apple-Weather style) ---------- */
+  .car-card{
+    position:relative; border-radius:var(--radius); overflow:hidden; margin-bottom:14px;
+    background: linear-gradient(135deg, var(--card1), var(--card2));
+    padding:16px 16px 14px 16px; cursor:pointer; user-select:none;
+    border:1px solid var(--line);
+    min-height:150px; display:flex; flex-direction:column; justify-content:space-between;
+  }
+  .car-card .bgimg{
+    position:absolute; inset:0; background-size:cover; background-position:center;
+    opacity:0.55; filter:saturate(0.9);
+  }
+  .car-card .bgimg.placeholder{
+    display:flex; align-items:center; justify-content:center; opacity:0.16; font-size:80px;
+  }
+  .car-card .scrim{
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(10,15,21,0.15) 0%, rgba(10,15,21,0.85) 100%);
+  }
+  .car-card .content{ position:relative; z-index:2; display:flex; flex-direction:column; height:100%; justify-content:space-between;}
+  .status-dot{
+    position:absolute; top:14px; left:14px; width:11px; height:11px; border-radius:50%; z-index:3;
+    box-shadow:0 0 0 3px rgba(0,0,0,0.25);
+  }
+  .status-dot.on{ background:var(--profit); }
+  .status-dot.off{ background:var(--loss); }
+  .car-top{ display:flex; justify-content:flex-end; }
+  .plate{
+    display:inline-block; background:var(--plate); color:#141414; font-weight:700;
+    padding:3px 10px; border-radius:5px; font-size:14px; letter-spacing:1.5px;
+    font-family:'Inter',sans-serif; border:1px solid #d4ab1f;
+  }
+  .car-name{ font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:26px; margin-top:auto; }
+  .car-sub{ color:var(--muted); font-size:13px; margin-top:2px; }
+
+  /* ---------- Bottom nav ---------- */
+  .bottomnav{
+    position:absolute; left:0; right:0; bottom:0; display:flex;
+    background:rgba(14,20,28,0.92); backdrop-filter:blur(10px);
+    border-top:1px solid var(--line); padding:8px 6px calc(8px + env(safe-area-inset-bottom)) 6px;
+    flex-shrink:0;
+  }
+  .navbtn{
+    flex:1; display:flex; flex-direction:column; align-items:center; gap:3px;
+    color:var(--muted2); background:none; border:none; padding:6px 0; cursor:pointer;
+  }
+  .navbtn.active{ color:var(--accent); }
+  .navbtn svg{ width:22px; height:22px; }
+  .navbtn span{ font-size:11px; font-weight:600; }
+
+  /* ---------- Modal / sheet ---------- */
+  .overlay{
+    position:absolute; inset:0; background:rgba(4,6,9,0.6); z-index:50;
+    display:flex; align-items:flex-end;
+  }
+  .sheet{
+    background:var(--card2); width:100%; border-radius:22px 22px 0 0;
+    padding:18px 18px calc(20px + env(safe-area-inset-bottom)) 18px; max-height:88%; overflow-y:auto;
+    border:1px solid var(--line); border-bottom:none;
+  }
+  .sheet h2{ font-family:'Barlow Condensed',sans-serif; font-size:24px; margin:2px 0 16px 0;}
+  .field{ margin-bottom:12px; }
+  .field label{ display:block; font-size:12px; color:var(--muted); margin-bottom:5px; font-weight:600; }
+  .field input, .field select{
+    width:100%; background:var(--card1); border:1px solid var(--line); color:var(--text);
+    padding:11px 12px; border-radius:11px; font-size:15px; font-family:inherit;
+  }
+  .field input:focus, .field select:focus{ outline:1px solid var(--accent); }
+  .row2{ display:flex; gap:10px; }
+  .row2 > *{ flex:1; }
+  .btn{
+    width:100%; padding:13px; border-radius:13px; border:none; font-size:15px; font-weight:700;
+    cursor:pointer; font-family:inherit;
+  }
+  .btn.primary{ background:var(--accent); color:#241703; }
+  .btn.ghost{ background:var(--card1); color:var(--text); border:1px solid var(--line); }
+  .btn.danger{ background:var(--loss); color:#2a0808; }
+  .btn-row{ display:flex; gap:10px; margin-top:6px; }
+  .btn-row > *{ flex:1; }
+  .close-x{ position:absolute; top:14px; right:16px; color:var(--muted); font-size:22px; background:none; border:none; cursor:pointer;}
+
+  /* ---------- Detail page ---------- */
+  .detail{ position:absolute; inset:0; background:var(--bg); z-index:30; display:flex; flex-direction:column; }
+  .detail-hero{
+    position:relative; height:200px; flex-shrink:0; background-size:cover; background-position:center;
+  }
+  .detail-hero .placeholder{ display:flex; align-items:center; justify-content:center; height:100%; font-size:90px; opacity:0.2; background:linear-gradient(135deg,var(--card1),var(--card2)); }
+  .detail-hero .scrim{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(6,9,13,0.35), rgba(10,15,21,1)); }
+  .detail-hero .back{
+    position:absolute; top:16px; left:14px; z-index:5; width:38px; height:38px; border-radius:11px;
+    background:rgba(10,15,21,0.55); border:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center;
+  }
+  .detail-hero .title-wrap{ position:absolute; bottom:14px; left:18px; z-index:4; }
+  .detail-hero .title-wrap .car-name{ font-size:28px; }
+  .detail-body{ flex:1; overflow-y:auto; padding:14px 16px 110px 16px; -webkit-overflow-scrolling:touch; }
+  .detail-body::-webkit-scrollbar{display:none;}
+
+  .stat-row{ display:flex; gap:10px; margin-bottom:16px; }
+  .stat-box{ flex:1; border-radius:15px; padding:12px 12px; }
+  .stat-box .lbl{ font-size:11px; font-weight:700; opacity:0.85; text-transform:uppercase; letter-spacing:0.4px;}
+  .stat-box .val{ font-family:'Barlow Condensed',sans-serif; font-size:23px; font-weight:700; margin-top:3px; }
+  .stat-box.green{ background:rgba(47,206,111,0.16); color:var(--profit); border:1px solid rgba(47,206,111,0.35); }
+  .stat-box.neutral{ background:var(--card1); color:var(--text); border:1px solid var(--line); }
+  .stat-box.profit-pos{ background:rgba(47,206,111,0.16); color:var(--profit); border:1px solid rgba(47,206,111,0.35); }
+  .stat-box.profit-neg{ background:rgba(239,90,90,0.16); color:var(--loss); border:1px solid rgba(239,90,90,0.35); }
+
+  .adv-row{ display:flex; align-items:center; justify-content:space-between; background:var(--card1); border:1px solid var(--line); border-radius:14px; padding:12px 14px; margin-bottom:18px;}
+  .adv-row .l{ font-size:14px; font-weight:600; }
+  .adv-row .l .sub{ display:block; font-size:12px; color:var(--muted); font-weight:400; margin-top:1px;}
+  .switch{ width:46px; height:27px; border-radius:20px; position:relative; cursor:pointer; flex-shrink:0; transition:background 0.15s;}
+  .switch.on{ background:var(--profit); } .switch.off{ background:#3a4653; }
+  .switch .knob{ position:absolute; top:2.5px; width:22px; height:22px; border-radius:50%; background:#fff; transition:left 0.15s; }
+  .switch.on .knob{ left:21.5px; } .switch.off .knob{ left:2.5px; }
+
+  .section-head{ display:flex; align-items:center; justify-content:space-between; margin:4px 0 10px 0; }
+  .section-head h3{ font-family:'Barlow Condensed',sans-serif; font-size:20px; margin:0; font-weight:700; }
+  .add-round{ width:30px; height:30px; border-radius:50%; background:var(--accent); color:#241703; border:none; font-size:19px; font-weight:700; display:flex; align-items:center; justify-content:center; cursor:pointer; line-height:0;}
+
+  .cost-row{ background:var(--card1); border:1px solid var(--line); border-radius:13px; padding:11px 13px; margin-bottom:9px; }
+  .cost-row .top{ display:flex; justify-content:space-between; align-items:baseline; }
+  .cost-row .part{ font-weight:700; font-size:14.5px; }
+  .cost-row .amount{ font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:17px; color:var(--accent); }
+  .cost-row .meta{ font-size:12px; color:var(--muted); margin-top:3px; }
+  .costs-total{ display:flex; justify-content:space-between; padding:10px 4px 4px 4px; color:var(--muted); font-size:13px; font-weight:600; }
+  .costs-total b{ color:var(--text); font-size:15px; }
+
+  .sold-bar-wrap{ position:absolute; left:0; right:0; bottom:0; padding:14px 16px calc(14px + env(safe-area-inset-bottom)) 16px; background:linear-gradient(180deg, rgba(14,20,28,0), var(--bg) 30%); }
+  .sold-bar{ width:100%; padding:15px; border-radius:14px; border:none; background:var(--accent); color:#241703; font-weight:800; font-size:15px; letter-spacing:0.5px; cursor:pointer; font-family:'Barlow Condensed',sans-serif; }
+  .sold-bar.disabled{ background:var(--card1); color:var(--muted); }
+
+  /* ---------- Summary ---------- */
+  .period-pills{ display:flex; gap:7px; overflow-x:auto; padding-bottom:4px; margin-bottom:18px; }
+  .period-pills::-webkit-scrollbar{display:none;}
+  .pill{ flex-shrink:0; padding:8px 14px; border-radius:20px; background:var(--card1); border:1px solid var(--line); color:var(--muted); font-size:13px; font-weight:600; cursor:pointer; }
+  .pill.active{ background:var(--accent); color:#241703; border-color:var(--accent); }
+
+  .profit-hero{ text-align:center; padding:26px 10px 20px 10px; border-radius:20px; margin-bottom:16px; border:1px solid var(--line); }
+  .profit-hero .lbl{ font-size:13px; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:0.5px;}
+  .profit-hero .figure{ font-family:'Barlow Condensed',sans-serif; font-size:52px; font-weight:800; margin-top:4px;}
+  .profit-hero .figure.pos{ color:var(--profit); } .profit-hero .figure.neg{ color:var(--loss); }
+  .profit-hero .sub{ color:var(--muted2); font-size:12px; margin-top:6px; }
+  .swipe-hint{ text-align:center; color:var(--muted2); font-size:11px; margin-bottom:14px;}
+
+  .graph-wrap{ background:var(--card2); border:1px solid var(--line); border-radius:16px; padding:14px 10px 8px 10px; margin-bottom:18px;}
+  canvas{ width:100%; display:block; }
+
+  .mini-stats{ display:flex; gap:10px; }
+  .mini-stat{ flex:1; background:var(--card1); border:1px solid var(--line); border-radius:14px; padding:12px; text-align:center; }
+  .mini-stat .n{ font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:700; }
+  .mini-stat .l{ font-size:11px; color:var(--muted); margin-top:2px; }
+
+  /* ---------- Previous list ---------- */
+  .prev-row{ background:var(--card1); border:1px solid var(--line); border-radius:15px; padding:13px 14px; margin-bottom:10px; }
+  .prev-row .top{ display:flex; justify-content:space-between; align-items:center; }
+  .prev-row .name{ font-weight:700; font-size:15px; }
+  .prev-row .profit{ font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:18px; }
+  .prev-row .profit.pos{ color:var(--profit);} .prev-row .profit.neg{ color:var(--loss);}
+  .prev-row .meta{ font-size:12px; color:var(--muted); margin-top:5px; display:flex; justify-content:space-between;}
+
+  .recycle-item{ background:var(--card1); border:1px solid var(--line); border-radius:13px; padding:11px 13px; margin-bottom:9px; display:flex; justify-content:space-between; align-items:center;}
+  .recycle-item .n{ font-weight:700; font-size:14px; }
+  .recycle-item .d{ font-size:11px; color:var(--muted); margin-top:2px;}
+  .small-btn{ padding:7px 12px; border-radius:9px; border:1px solid var(--line); background:var(--card2); color:var(--text); font-size:12px; font-weight:600; cursor:pointer;}
+
+  .toast{
+    position:absolute; bottom:100px; left:50%; transform:translateX(-50%); background:#1c2836; border:1px solid var(--line);
+    padding:10px 18px; border-radius:12px; font-size:13px; z-index:80; opacity:0; transition:opacity 0.2s; pointer-events:none;
+  }
+  .toast.show{ opacity:1; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+const STORE_KEY = 'dealer-stock-data';
+const PROVIDERS = ['Euro Car Parts', 'Ebay', 'Parkers', 'Bullseye'];
+
+let DATA = { cars: [], deleted: [] };
+let VIEW = 'stock'; // stock | summary | previous
+let openCarId = null;
+let summaryPeriod = 'month'; // today, week, month, 3months, year
+let summaryShowGraph = false;
+let touchTimer = null;
+
+function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+function fmtMoney(n){
+  const v = Number(n)||0;
+  return '£' + v.toLocaleString('en-GB', {maximumFractionDigits:0});
+}
+function fmtDate(d){
+  if(!d) return '—';
+  const dt = new Date(d);
+  return dt.toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'});
+}
+function carCosts(car){ return (car.costs||[]).reduce((s,c)=>s+(Number(c.amount)||0),0); }
+function carProfit(car){
+  const sale = car.sold ? Number(car.soldPrice)||0 : Number(car.predictedSalePrice)||0;
+  return sale - (Number(car.purchasePrice)||0) - carCosts(car);
+}
+
+const LOCAL_KEY = 'forecourt_data_v1';
+
+async function loadData(){
+  let loaded = false;
+  // Primary: Claude artifact preview storage (persists when viewed inside claude.ai)
+  try{
+    if(window.storage){
+      const r = await window.storage.get('data', false);
+      if(r && r.value){ DATA = JSON.parse(r.value); loaded = true; }
+    }
+  }catch(e){ /* not running inside claude.ai preview, or key not set yet */ }
+  // Fallback: browser local storage (persists when the file is downloaded and opened
+  // directly, e.g. saved to the phone's home screen) — used if the primary storage
+  // isn't available or had nothing saved yet.
+  if(!loaded){
+    try{
+      const raw = localStorage.getItem(LOCAL_KEY);
+      if(raw){ DATA = JSON.parse(raw); loaded = true; }
+    }catch(e){ /* private browsing or storage disabled */ }
+  }
+  if(!DATA.cars) DATA.cars = [];
+  if(!DATA.deleted) DATA.deleted = [];
+  purgeOldDeleted();
+}
+async function saveData(){
+  const json = JSON.stringify(DATA);
+  let savedSomewhere = false;
+  try{ await window.storage.set('data', json, false); savedSomewhere = true; }
+  catch(e){ /* fall through to local storage */ }
+  try{ localStorage.setItem(LOCAL_KEY, json); savedSomewhere = true; }
+  catch(e){ /* fall through */ }
+  if(!savedSomewhere){ showToast('Could not save — try again'); }
+}
+function purgeOldDeleted(){
+  const now = Date.now();
+  const THIRTY = 30*24*60*60*1000;
+  DATA.deleted = DATA.deleted.filter(c => (now - new Date(c.deletedAt).getTime()) < THIRTY);
+}
+
+let toastTimer = null;
+function showToast(msg){
+  let t = document.getElementById('toast');
+  if(!t){
+    t = document.createElement('div'); t.id='toast'; t.className='toast';
+    document.getElementById('app').appendChild(t);
+  }
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 1800);
+}
+
+/* ---------------- ICONS ---------------- */
+const ICONS = {
+  stock: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="7" height="7" rx="1.5"/><rect x="14" y="4" width="7" height="7" rx="1.5"/><rect x="3" y="13" width="7" height="7" rx="1.5"/><rect x="14" y="13" width="7" height="7" rx="1.5"/></svg>`,
+  summary: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="20" x2="4" y2="12"/><line x1="12" y1="20" x2="12" y2="6"/><line x1="20" y1="20" x2="20" y2="15"/></svg>`,
+  previous: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg>`,
+  plus: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
+  recycle: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>`,
+  back: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>`,
+  car: '🚘'
+};
+
+/* ---------------- RENDER ROOT ---------------- */
+function render(){
+  const app = document.getElementById('app');
+  const detailCar = openCarId ? DATA.cars.find(c=>c.id===openCarId) : null;
+
+  app.innerHTML = `
+    ${detailCar ? '' : renderTopbar()}
+    ${detailCar ? '' : `<div class="scroll" id="scrollArea">${renderView()}</div>`}
+    ${detailCar ? '' : renderBottomNav()}
+    ${detailCar ? renderDetail(detailCar) : ''}
+  `;
+  attachHandlers();
+  const t = document.getElementById('toast'); // preserve toast node across rerenders if present
+}
+
+function renderTopbar(){
+  const titleMap = { stock:'Stock', summary:'Summary', previous:'Previous' };
+  return `
+    <div class="topbar">
+      ${VIEW==='stock' ? `<button class="icon-btn" id="btnRecycle">${ICONS.recycle}</button>` : `<div style="width:40px"></div>`}
+      <h1>${titleMap[VIEW]}</h1>
+      ${VIEW==='stock' ? `<button class="icon-btn accent" id="btnAddCar">${ICONS.plus}</button>` : `<div style="width:40px"></div>`}
+    </div>
+  `;
+}
+
+function renderBottomNav(){
+  return `
+    <div class="bottomnav">
+      <button class="navbtn ${VIEW==='stock'?'active':''}" data-view="stock">${ICONS.stock}<span>Stock</span></button>
+      <button class="navbtn ${VIEW==='summary'?'active':''}" data-view="summary">${ICONS.summary}<span>Summary</span></button>
+      <button class="navbtn ${VIEW==='previous'?'active':''}" data-view="previous">${ICONS.previous}<span>Previous</span></button>
+    </div>
+  `;
+}
+
+function renderView(){
+  if(VIEW==='stock') return renderStock();
+  if(VIEW==='summary') return renderSummary();
+  if(VIEW==='previous') return renderPrevious();
+}
+
+/* ---------------- STOCK VIEW ---------------- */
+function renderStock(){
+  const active = DATA.cars.filter(c=>!c.sold);
+  if(active.length===0){
+    return `<div class="empty"><div class="big">🚗</div><div class="disp">No cars in stock</div>Tap + to add your first car.</div>`;
+  }
+  return active.map(c=>renderCarCard(c)).join('');
+}
+
+function renderCarCard(c){
+  const bg = c.imageUrl
+    ? `<div class="bgimg" style="background-image:url('${escapeAttr(c.imageUrl)}')"></div>`
+    : `<div class="bgimg placeholder">${ICONS.car}</div>`;
+  return `
+    <div class="car-card" data-id="${c.id}">
+      ${bg}
+      <div class="scrim"></div>
+      <div class="status-dot ${c.advertised?'on':'off'}"></div>
+      <div class="content">
+        <div class="car-top"><span class="plate">${escapeHtml(c.reg||'NO REG')}</span></div>
+        <div>
+          <div class="car-name">${escapeHtml(c.year||'')} ${escapeHtml(c.make||'')} ${escapeHtml(c.model||'')}</div>
+          <div class="car-sub">Bought ${fmtDate(c.purchaseDate)}</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* ---------------- SUMMARY VIEW ---------------- */
+const PERIODS = [
+  {key:'today', label:'Today'},
+  {key:'week', label:'This Week'},
+  {key:'month', label:'This Month'},
+  {key:'3months', label:'3 Months'},
+  {key:'year', label:'This Year'},
+  {key:'lastyear', label:'Last Year'},
+  {key:'2yearsago', label:'2 Years Ago'},
+];
+function getPeriodRange(key){
+  const now = new Date();
+  if(key==='today'){ const s=new Date(now); s.setHours(0,0,0,0); return {start:s, end:new Date(now.getTime()+60000)}; }
+  if(key==='week'){ return {start:new Date(now.getTime()-7*86400000), end:now}; }
+  if(key==='month'){ return {start:new Date(now.getTime()-30*86400000), end:now}; }
+  if(key==='3months'){ return {start:new Date(now.getTime()-90*86400000), end:now}; }
+  if(key==='year'){ return {start:new Date(now.getTime()-365*86400000), end:now}; }
+  if(key==='lastyear'){ const y=now.getFullYear()-1; return {start:new Date(y,0,1), end:new Date(y+1,0,1)}; }
+  if(key==='2yearsago'){ const y=now.getFullYear()-2; return {start:new Date(y,0,1), end:new Date(y+1,0,1)}; }
+}
+function carsSoldInPeriod(key){
+  const range = getPeriodRange(key);
+  return DATA.cars.filter(c=>{
+    if(!c.sold || !c.soldDate) return false;
+    const t = new Date(c.soldDate).getTime();
+    return t >= range.start.getTime() && t < range.end.getTime();
+  });
+}
+
+function renderSummary(){
+  const sold = carsSoldInPeriod(summaryPeriod);
+  const totalProfit = sold.reduce((s,c)=>s+carProfit(c),0);
+  const pos = totalProfit >= 0;
+  return `
+    <div class="period-pills">
+      ${PERIODS.map(p=>`<div class="pill ${summaryPeriod===p.key?'active':''}" data-period="${p.key}">${p.label}</div>`).join('')}
+    </div>
+    <div class="profit-hero" style="background:${pos?'rgba(47,206,111,0.10)':'rgba(239,90,90,0.10)'}" id="profitHero">
+      <div class="lbl">Profit — ${PERIODS.find(p=>p.key===summaryPeriod).label}</div>
+      <div class="figure ${pos?'pos':'neg'}">${pos?'':'-'}${fmtMoney(Math.abs(totalProfit))}</div>
+      <div class="sub">${sold.length} car${sold.length===1?'':'s'} sold</div>
+    </div>
+    <button class="btn ghost" id="toggleGraphBtn" style="margin-bottom:16px;">${summaryShowGraph ? 'Hide graph' : 'Show graph'}</button>
+    ${summaryShowGraph ? `<div class="graph-wrap"><canvas id="graphCanvas" height="160"></canvas></div>` : ''}
+    <div class="mini-stats">
+      <div class="mini-stat"><div class="n">${sold.length}</div><div class="l">Sold</div></div>
+      <div class="mini-stat"><div class="n">${DATA.cars.filter(c=>!c.sold).length}</div><div class="l">In Stock</div></div>
+      <div class="mini-stat"><div class="n">${sold.length?fmtMoney(totalProfit/sold.length):'£0'}</div><div class="l">Avg / Car</div></div>
+    </div>
+  `;
+}
+
+function bucketLabelAndGrouper(period){
+  // returns {buckets: [{label, start, end}], }
+  const now = new Date();
+  let buckets = [];
+  if(period==='today'){
+    for(let h=0; h<24; h+=4){
+      buckets.push({label:`${h}:00`, start:new Date(now.getFullYear(),now.getMonth(),now.getDate(),h), end:new Date(now.getFullYear(),now.getMonth(),now.getDate(),h+4)});
+    }
+  } else if(period==='week'){
+    for(let i=6;i>=0;i--){
+      const d = new Date(now); d.setDate(now.getDate()-i); d.setHours(0,0,0,0);
+      const e = new Date(d); e.setDate(d.getDate()+1);
+      buckets.push({label:d.toLocaleDateString('en-GB',{weekday:'short'}), start:d, end:e});
+    }
+  } else if(period==='month'){
+    for(let i=29;i>=0;i--){
+      const d = new Date(now); d.setDate(now.getDate()-i); d.setHours(0,0,0,0);
+      const e = new Date(d); e.setDate(d.getDate()+1);
+      buckets.push({label:d.getDate().toString(), start:d, end:e});
+    }
+  } else if(period==='3months'){
+    for(let i=12;i>=0;i--){
+      const e = new Date(now); e.setDate(now.getDate()-(i*7)); e.setHours(0,0,0,0);
+      const d = new Date(e); d.setDate(e.getDate()-7);
+      buckets.push({label:'W'+(13-i), start:d, end:e});
+    }
+  } else if(period==='year'){
+    for(let i=11;i>=0;i--){
+      const d = new Date(now.getFullYear(), now.getMonth()-i, 1);
+      const e = new Date(now.getFullYear(), now.getMonth()-i+1, 1);
+      buckets.push({label:d.toLocaleDateString('en-GB',{month:'short'}), start:d, end:e});
+    }
+  } else if(period==='lastyear' || period==='2yearsago'){
+    const y = period==='lastyear' ? now.getFullYear()-1 : now.getFullYear()-2;
+    for(let m=0; m<12; m++){
+      const d = new Date(y, m, 1);
+      const e = new Date(y, m+1, 1);
+      buckets.push({label:d.toLocaleDateString('en-GB',{month:'short'}), start:d, end:e});
+    }
+  }
+  return buckets;
+}
+
+function drawGraph(){
+  const canvas = document.getElementById('graphCanvas');
+  if(!canvas) return;
+  const buckets = bucketLabelAndGrouper(summaryPeriod);
+  const sold = DATA.cars.filter(c=>c.sold && c.soldDate);
+  const values = buckets.map(b=>{
+    const inb = sold.filter(c=>{
+      const t = new Date(c.soldDate).getTime();
+      return t >= b.start.getTime() && t < b.end.getTime();
+    });
+    return inb.reduce((s,c)=>s+carProfit(c),0);
+  });
+
+  const dpr = window.devicePixelRatio || 1;
+  const w = canvas.clientWidth, h = 160;
+  canvas.width = w*dpr; canvas.height = h*dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr,dpr);
+  ctx.clearRect(0,0,w,h);
+
+  const max = Math.max(1, ...values.map(v=>Math.abs(v)));
+  const zeroY = h/2;
+  const barW = (w / values.length) * 0.6;
+  const gap = (w / values.length);
+
+  ctx.font = '10px Inter, sans-serif';
+  ctx.textAlign = 'center';
+  values.forEach((v,i)=>{
+    const x = gap*i + gap/2;
+    const barH = (Math.abs(v)/max) * (h/2 - 20);
+    ctx.fillStyle = v>=0 ? '#2fce6f' : '#ef5a5a';
+    if(v>=0){
+      ctx.fillRect(x-barW/2, zeroY-barH, barW, barH);
+    } else {
+      ctx.fillRect(x-barW/2, zeroY, barW, barH);
+    }
+    ctx.fillStyle = '#5d6b7a';
+    ctx.fillText(buckets[i].label, x, h-4);
+  });
+  ctx.strokeStyle = '#26333f';
+  ctx.beginPath(); ctx.moveTo(0,zeroY); ctx.lineTo(w,zeroY); ctx.stroke();
+}
+
+/* ---------------- PREVIOUS VIEW ---------------- */
+function renderPrevious(){
+  const sold = DATA.cars.filter(c=>c.sold).sort((a,b)=> new Date(b.soldDate) - new Date(a.soldDate));
+  if(sold.length===0){
+    return `<div class="empty"><div class="big">🏁</div><div class="disp">No cars sold yet</div>Sold cars will appear here, newest first.</div>`;
+  }
+  return sold.map(c=>{
+    const profit = carProfit(c);
+    const pos = profit>=0;
+    return `
+      <div class="prev-row">
+        <div class="top">
+          <div class="name">${escapeHtml(c.year||'')} ${escapeHtml(c.make||'')} ${escapeHtml(c.model||'')}</div>
+          <div class="profit ${pos?'pos':'neg'}">${pos?'':'-'}${fmtMoney(Math.abs(profit))}</div>
+        </div>
+        <div class="meta"><span>${escapeHtml(c.reg||'')} · sold ${fmtDate(c.soldDate)}</span><span>for ${fmtMoney(c.soldPrice)}</span></div>
+      </div>
+    `;
+  }).join('');
+}
+
+/* ---------------- DETAIL VIEW ---------------- */
+function renderDetail(car){
+  const profit = carProfit(car);
+  const posProfit = profit >= 0;
+  const totalCosts = carCosts(car);
+  const bg = car.imageUrl ? `background-image:url('${escapeAttr(car.imageUrl)}')` : '';
+
+  return `
+    <div class="detail">
+      <div class="detail-hero" style="${bg}">
+        ${!car.imageUrl ? `<div class="placeholder">${ICONS.car}</div>` : ''}
+        <div class="scrim"></div>
+        <button class="back" id="btnBack">${ICONS.back}</button>
+        <div class="title-wrap">
+          <span class="plate" style="margin-bottom:6px; display:inline-block;">${escapeHtml(car.reg||'NO REG')}</span>
+          <div class="car-name">${escapeHtml(car.year||'')} ${escapeHtml(car.make||'')} ${escapeHtml(car.model||'')}</div>
+        </div>
+      </div>
+      <div class="detail-body">
+        <div class="stat-row">
+          <div class="stat-box green">
+            <div class="lbl">Buying Price</div>
+            <div class="val">${fmtMoney(car.purchasePrice)}</div>
+          </div>
+          <div class="stat-box neutral">
+            <div class="lbl">Predicted Sale</div>
+            <div class="val" id="predSaleVal">${fmtMoney(car.predictedSalePrice)}</div>
+          </div>
+          <div class="stat-box ${posProfit?'profit-pos':'profit-neg'}">
+            <div class="lbl">Pred. Profit</div>
+            <div class="val">${posProfit?'':'-'}${fmtMoney(Math.abs(profit))}</div>
+          </div>
+        </div>
+
+        <div class="adv-row">
+          <div class="l">Advertised<span class="sub">Showing as live on your listings</span></div>
+          <div class="switch ${car.advertised?'on':'off'}" id="advSwitch"><div class="knob"></div></div>
+        </div>
+
+        <div class="section-head">
+          <h3>Costs <span style="color:var(--muted); font-weight:400; font-size:15px;">· ${fmtMoney(totalCosts)}</span></h3>
+          <button class="add-round" id="btnAddCost">+</button>
+        </div>
+        <div id="costsList">
+          ${(car.costs||[]).length===0
+            ? `<div style="color:var(--muted2); font-size:13px; padding:6px 2px 10px 2px;">No costs added yet.</div>`
+            : car.costs.slice().reverse().map(cost=>`
+              <div class="cost-row">
+                <div class="top">
+                  <div class="part">${escapeHtml(cost.part)}</div>
+                  <div class="amount">${fmtMoney(cost.amount)}</div>
+                </div>
+                <div class="meta">${escapeHtml(cost.provider)} · ${fmtDate(cost.date)}</div>
+              </div>
+            `).join('')}
+        </div>
+
+        <div style="height:6px;"></div>
+        <button class="btn ghost" id="btnEditPred" style="margin-top:6px;">Edit purchase / predicted sale price</button>
+      </div>
+
+      <div class="sold-bar-wrap">
+        <button class="sold-bar" id="btnSold">${car.sold ? 'SOLD · Edit sale price' : 'MARK AS SOLD'}</button>
+      </div>
+    </div>
+  `;
+}
+
+/* ---------------- MODALS / SHEETS ---------------- */
+function openSheet(html){
+  const app = document.getElementById('app');
+  const wrap = document.createElement('div');
+  wrap.className = 'overlay';
+  wrap.id = 'activeOverlay';
+  wrap.innerHTML = `<div class="sheet">${html}</div>`;
+  wrap.addEventListener('click', (e)=>{ if(e.target===wrap) closeSheet(); });
+  app.appendChild(wrap);
+}
+function closeSheet(){
+  const el = document.getElementById('activeOverlay');
+  if(el) el.remove();
+}
+
+function openAddCarSheet(){
+  openSheet(`
+    <button class="close-x" id="sheetClose">×</button>
+    <h2>Add a car</h2>
+    <div class="row2">
+      <div class="field"><label>Make</label><input id="f_make" placeholder="Ford"></div>
+      <div class="field"><label>Model</label><input id="f_model" placeholder="Fiesta"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Year</label><input id="f_year" placeholder="2018" inputmode="numeric"></div>
+      <div class="field"><label>Registration</label><input id="f_reg" placeholder="AB18 XYZ" style="text-transform:uppercase;"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Buying price (£)</label><input id="f_purchase" placeholder="4500" inputmode="decimal"></div>
+      <div class="field"><label>Date bought</label><input id="f_pdate" type="date" value="${todayStr()}"></div>
+    </div>
+    <div class="field"><label>Predicted sale price (£)</label><input id="f_predicted" placeholder="5800" inputmode="decimal"></div>
+    <div class="field"><label>Photo URL (optional — paste a link to a photo of this car)</label><input id="f_image" placeholder="https://..."></div>
+    <div class="btn-row">
+      <button class="btn ghost" id="sheetCancel">Cancel</button>
+      <button class="btn primary" id="sheetSave">Add car</button>
+    </div>
+  `);
+  document.getElementById('sheetClose').onclick = closeSheet;
+  document.getElementById('sheetCancel').onclick = closeSheet;
+  document.getElementById('sheetSave').onclick = async ()=>{
+    const make = document.getElementById('f_make').value.trim();
+    const model = document.getElementById('f_model').value.trim();
+    if(!make || !model){ showToast('Add a make and model'); return; }
+    const car = {
+      id: uid(),
+      make, model,
+      year: document.getElementById('f_year').value.trim(),
+      reg: document.getElementById('f_reg').value.trim().toUpperCase(),
+      purchasePrice: Number(document.getElementById('f_purchase').value)||0,
+      purchaseDate: document.getElementById('f_pdate').value || todayStr(),
+      predictedSalePrice: Number(document.getElementById('f_predicted').value)||0,
+      imageUrl: document.getElementById('f_image').value.trim(),
+      advertised: false,
+      costs: [],
+      sold: false, soldPrice: null, soldDate: null
+    };
+    DATA.cars.push(car);
+    await saveData();
+    closeSheet();
+    render();
+  };
+}
+
+function openAddCostSheet(car){
+  const providerOptions = PROVIDERS.map(p=>`<option value="${p}">${p}</option>`).join('');
+  openSheet(`
+    <button class="close-x" id="sheetClose">×</button>
+    <h2>Add a cost</h2>
+    <div class="field"><label>Part / service</label><input id="c_part" placeholder="Front brake pads"></div>
+    <div class="field"><label>Provider</label>
+      <select id="c_provider"><option value="">Select provider…</option>${providerOptions}</select>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Amount (£)</label><input id="c_amount" placeholder="85" inputmode="decimal"></div>
+      <div class="field"><label>Date</label><input id="c_date" type="date" value="${todayStr()}"></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn ghost" id="sheetCancel">Cancel</button>
+      <button class="btn primary" id="sheetSave">Add cost</button>
+    </div>
+  `);
+  document.getElementById('sheetClose').onclick = closeSheet;
+  document.getElementById('sheetCancel').onclick = closeSheet;
+  document.getElementById('sheetSave').onclick = async ()=>{
+    const part = document.getElementById('c_part').value.trim();
+    const provider = document.getElementById('c_provider').value;
+    const amount = Number(document.getElementById('c_amount').value)||0;
+    if(!part || !provider){ showToast('Add a part name and provider'); return; }
+    car.costs = car.costs || [];
+    car.costs.push({ id: uid(), part, provider, amount, date: document.getElementById('c_date').value || todayStr() });
+    await saveData();
+    closeSheet();
+    render();
+  };
+}
+
+function openSoldSheet(car){
+  openSheet(`
+    <button class="close-x" id="sheetClose">×</button>
+    <h2>Mark as sold</h2>
+    <div class="field"><label>Sale price (£)</label><input id="s_price" placeholder="5800" inputmode="decimal" value="${car.soldPrice||''}"></div>
+    <div class="field"><label>Date sold</label><input id="s_date" type="date" value="${car.soldDate||todayStr()}"></div>
+    <div class="btn-row">
+      <button class="btn ghost" id="sheetCancel">Cancel</button>
+      <button class="btn primary" id="sheetSave">Confirm sold</button>
+    </div>
+  `);
+  document.getElementById('sheetClose').onclick = closeSheet;
+  document.getElementById('sheetCancel').onclick = closeSheet;
+  document.getElementById('sheetSave').onclick = async ()=>{
+    const price = Number(document.getElementById('s_price').value)||0;
+    if(price<=0){ showToast('Enter a sale price'); return; }
+    car.sold = true;
+    car.soldPrice = price;
+    car.soldDate = document.getElementById('s_date').value || todayStr();
+    await saveData();
+    closeSheet();
+    openCarId = null;
+    VIEW = 'stock';
+    render();
+    showToast('Marked as sold');
+  };
+}
+
+function openEditPredSheet(car){
+  openSheet(`
+    <button class="close-x" id="sheetClose">×</button>
+    <h2>Edit prices</h2>
+    <div class="field"><label>Buying price (£)</label><input id="e_purchase" value="${car.purchasePrice}" inputmode="decimal"></div>
+    <div class="field"><label>Predicted sale price (£)</label><input id="e_predicted" value="${car.predictedSalePrice}" inputmode="decimal"></div>
+    <div class="btn-row">
+      <button class="btn ghost" id="sheetCancel">Cancel</button>
+      <button class="btn primary" id="sheetSave">Save</button>
+    </div>
+  `);
+  document.getElementById('sheetClose').onclick = closeSheet;
+  document.getElementById('sheetCancel').onclick = closeSheet;
+  document.getElementById('sheetSave').onclick = async ()=>{
+    car.purchasePrice = Number(document.getElementById('e_purchase').value)||0;
+    car.predictedSalePrice = Number(document.getElementById('e_predicted').value)||0;
+    await saveData();
+    closeSheet();
+    render();
+  };
+}
+
+function openDeleteConfirm(car){
+  openSheet(`
+    <h2>Delete this car?</h2>
+    <p style="color:var(--muted); font-size:14px; margin-top:-8px;">${escapeHtml(car.year||'')} ${escapeHtml(car.make||'')} ${escapeHtml(car.model||'')} · ${escapeHtml(car.reg||'')} will move to the recycle bin for 30 days.</p>
+    <div class="btn-row">
+      <button class="btn ghost" id="sheetCancel">Cancel</button>
+      <button class="btn danger" id="sheetDelete">Delete</button>
+    </div>
+  `);
+  document.getElementById('sheetCancel').onclick = closeSheet;
+  document.getElementById('sheetDelete').onclick = async ()=>{
+    DATA.cars = DATA.cars.filter(c=>c.id!==car.id);
+    DATA.deleted.push({...car, deletedAt: new Date().toISOString()});
+    await saveData();
+    closeSheet();
+    render();
+    showToast('Moved to recycle bin');
+  };
+}
+
+function openRecycleBin(){
+  purgeOldDeleted();
+  const items = DATA.deleted.slice().sort((a,b)=> new Date(b.deletedAt)-new Date(a.deletedAt));
+  openSheet(`
+    <button class="close-x" id="sheetClose">×</button>
+    <h2>Recycle bin</h2>
+    <p style="color:var(--muted); font-size:13px; margin-top:-10px;">Deleted cars are kept for 30 days.</p>
+    ${items.length===0 ? `<div style="color:var(--muted2); padding:20px 0; text-align:center; font-size:14px;">Nothing here.</div>` :
+      items.map(c=>{
+        const daysLeft = 30 - Math.floor((Date.now()-new Date(c.deletedAt).getTime())/(24*60*60*1000));
+        return `
+        <div class="recycle-item">
+          <div>
+            <div class="n">${escapeHtml(c.year||'')} ${escapeHtml(c.make||'')} ${escapeHtml(c.model||'')}</div>
+            <div class="d">${escapeHtml(c.reg||'')} · ${daysLeft} day${daysLeft===1?'':'s'} left</div>
+          </div>
+          <button class="small-btn" data-restore="${c.id}">Restore</button>
+        </div>`;
+      }).join('')
+    }
+  `);
+  document.getElementById('sheetClose').onclick = closeSheet;
+  document.querySelectorAll('[data-restore]').forEach(btn=>{
+    btn.onclick = async ()=>{
+      const id = btn.getAttribute('data-restore');
+      const idx = DATA.deleted.findIndex(c=>c.id===id);
+      if(idx>-1){
+        const [car] = DATA.deleted.splice(idx,1);
+        delete car.deletedAt;
+        DATA.cars.push(car);
+        await saveData();
+        closeSheet();
+        render();
+        showToast('Restored');
+      }
+    };
+  });
+}
+
+/* ---------------- HELPERS ---------------- */
+function todayStr(){ return new Date().toISOString().slice(0,10); }
+function escapeHtml(s){ return (s==null?'':String(s)).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+function escapeAttr(s){ return escapeHtml(s).replace(/`/g,'&#96;'); }
+
+/* ---------------- EVENT WIRING ---------------- */
+function attachHandlers(){
+  // bottom nav
+  document.querySelectorAll('.navbtn').forEach(btn=>{
+    btn.onclick = ()=>{ VIEW = btn.getAttribute('data-view'); summaryShowGraph=false; render(); };
+  });
+
+  // top bar
+  const addCarBtn = document.getElementById('btnAddCar');
+  if(addCarBtn) addCarBtn.onclick = openAddCarSheet;
+  const recycleBtn = document.getElementById('btnRecycle');
+  if(recycleBtn) recycleBtn.onclick = openRecycleBin;
+
+  // car cards: tap to open, long-press to delete
+  document.querySelectorAll('.car-card').forEach(card=>{
+    const id = card.getAttribute('data-id');
+    let longPressed = false;
+    const start = ()=>{
+      longPressed = false;
+      touchTimer = setTimeout(()=>{
+        longPressed = true;
+        const car = DATA.cars.find(c=>c.id===id);
+        if(car) openDeleteConfirm(car);
+      }, 550);
+    };
+    const cancel = ()=>{ clearTimeout(touchTimer); };
+    card.addEventListener('touchstart', start, {passive:true});
+    card.addEventListener('touchend', cancel);
+    card.addEventListener('touchmove', cancel);
+    card.addEventListener('mousedown', start);
+    card.addEventListener('mouseup', cancel);
+    card.addEventListener('mouseleave', cancel);
+    card.addEventListener('click', ()=>{
+      if(longPressed) return;
+      openCarId = id;
+      render();
+    });
+  });
+
+  // summary
+  document.querySelectorAll('[data-period]').forEach(p=>{
+    p.onclick = ()=>{ summaryPeriod = p.getAttribute('data-period'); summaryShowGraph=false; render(); };
+  });
+  const hero = document.getElementById('profitHero');
+  if(hero) hero.onclick = ()=>{ summaryShowGraph = !summaryShowGraph; render(); setTimeout(drawGraph, 10); };
+  const graphToggleBtn = document.getElementById('toggleGraphBtn');
+  if(graphToggleBtn) graphToggleBtn.onclick = ()=>{ summaryShowGraph = !summaryShowGraph; render(); setTimeout(drawGraph, 10); };
+  if(summaryShowGraph) setTimeout(drawGraph, 10);
+
+  // detail
+  const backBtn = document.getElementById('btnBack');
+  if(backBtn) backBtn.onclick = ()=>{ openCarId = null; render(); };
+  const advSwitch = document.getElementById('advSwitch');
+  if(advSwitch) advSwitch.onclick = async ()=>{
+    const car = DATA.cars.find(c=>c.id===openCarId);
+    car.advertised = !car.advertised;
+    await saveData();
+    render();
+  };
+  const addCostBtn = document.getElementById('btnAddCost');
+  if(addCostBtn) addCostBtn.onclick = ()=>{
+    const car = DATA.cars.find(c=>c.id===openCarId);
+    openAddCostSheet(car);
+  };
+  const soldBtn = document.getElementById('btnSold');
+  if(soldBtn) soldBtn.onclick = ()=>{
+    const car = DATA.cars.find(c=>c.id===openCarId);
+    openSoldSheet(car);
+  };
+  const editPredBtn = document.getElementById('btnEditPred');
+  if(editPredBtn) editPredBtn.onclick = ()=>{
+    const car = DATA.cars.find(c=>c.id===openCarId);
+    openEditPredSheet(car);
+  };
+}
+
+/* ---------------- INIT ---------------- */
+(async function init(){
+  await loadData();
+  render();
+})();
+
+// Register service worker for offline support + installability.
+// Only works when hosted over https (or localhost) — silently does nothing
+// if opened directly as a local file, which is fine, the app still works.
+if('serviceWorker' in navigator && location.protocol !== 'file:'){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+  });
+}
+</script>
+</body>
+</html>
