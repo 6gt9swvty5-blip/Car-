@@ -1,0 +1,17 @@
+{
+  "name": "Forecourt — Car Stock Manager",
+  "short_name": "Forecourt",
+  "description": "Track your car stock, costs, and profits.",
+  "start_url": "./dealer-stock.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0e141c",
+  "theme_color": "#0e141c",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
